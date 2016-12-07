@@ -1,0 +1,38 @@
+consider updating maintenance to drop test buttons and LogEvent dll once issues resolved.
+
+you must pass the decrypted connect string into new OR it must exist non-encrypted in the app.config as shown below.
+
+I recommend passing it in from the calling app. Here is the new-style encrypted value:
+
+"JNBshtZdFFOVGkDLHhdMMaucp35hV6wBKu6m3YO2i7G4BsgD8cPY+iIQim9UZjDw"
+
+Here is the old-style encrypted value:
+"RUXyLOx1EwM="
+
+
+these belong in the app.config or web.config of calling process.
+note: password not encrypted in config by default. So, if you want it encrypted, must decrypt in calling app. and pass into New() 
+SQL 
+UN: LogEventUser
+PW: LEU2o!0
+
+Local Queue required for queue processing (can be skipped and will log to eventlog)
+if connect string is blank, logevent will write to eventlog
+
+
+
+
+
+  <!-- necessary LogEvent entries -->
+  <add key="LogEvent_QueuePath" value=".\Private$\LogEvent"/> <!-- local logevent queue or leave blank to write to eventlog only -->
+  <add key="LogEvent_ConnectString" value="data source=Appagare7\ASI;initial catalog=LogEvent;uid=LogEventUser;password=LEU2o!0;persist security info=True;packet size=4096"/> <!-- connect string for LogEvent database -->
+  <add key="LogEvent_Mailserver" value="mail321.asecurecart.net"/> <!-- FQDN for mailserver -->
+  <add key="LogEvent_MailFrom" value="no-reply@asecurecart.net"/> <!-- FROM/reply-to email address -->
+
+
+-- ignore the below (i think)
+
+The source was not found, but some or all event logs could not be searched. Inaccessible logs: Security. 
+
+2. data source=10.10.10.5;initial catalog=LogEvent;uid=LogEventUser;password=RUXyLOx1EwM=;persist security info=True;packet size=4096 
+3. pre-instantiate. 
